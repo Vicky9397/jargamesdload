@@ -91,7 +91,7 @@ function Ps2Links() {
   };
 
   return (
-    <div className="app-container">
+    <div >
       <div className="dropdown-container">
         <label htmlFor="category-select">Choose a Letter: </label>
         <select id="category-select" value={selectedCategory?.chValue || ""} onChange={handleCategoryChange}>
@@ -106,8 +106,10 @@ function Ps2Links() {
         </select>
       </div>
 
-      <div className="game-grid">
-        {games.map((game) => <GameCard key={game.gameId} game={game} />)}
+      <div className="row" style={{display:'ruby'}}>
+        {games.map((game) => <div className='col-3'>
+          <GameCard key={game.gameId} game={game} />
+        </div>)}
       </div>
     </div>
   );

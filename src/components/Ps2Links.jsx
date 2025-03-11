@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import GameCard from './GameCard';
 
 function Ps2Links() {
   const categories = [
@@ -42,7 +43,8 @@ function Ps2Links() {
       const response = await axios.get(
         `http://localhost:5000/api/games_by_letter?letter=${selectedCategory.chValue}`
       );
-      setGames(response.data);
+      const respList = response.data?.sort((a,b) => a.gameName.localeCompare(b.gameName))
+      setGames(respList);
     } catch (error) {
       console.error("Error fetching games:", error);
     }
@@ -104,23 +106,9 @@ function Ps2Links() {
         </select>
       </div>
 
-      <div className="dropdown-container">
-        <label htmlFor="game-select">Choose a Game: </label>
-        <select id="game-select" value={selectedGame?.gameId || ""} onChange={handleGameChange} disabled={games.length === 0}>
-          <option value="" disabled>
-            -- Games --
-          </option>
-          {games.map((game) => (
-            <option key={game.gameId} value={game.gameId}>
-              {game.gameName}
-            </option>
-          ))}
-        </select>
+      <div className="game-grid">
+        {games.map((game) => <GameCard key={game.gameId} game={game} />)}
       </div>
-
-      <button onClick={handleOpenLink} disabled={!link} className="open-link-button" style={{ marginTop: "20px" }}>
-        {link ? "Open Game Link" : "Link not available"}
-      </button>
     </div>
   );
 }

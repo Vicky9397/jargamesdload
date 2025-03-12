@@ -35,7 +35,7 @@ function Ps2Links() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [games, setGames] = useState([]);
   const [selectedGame, setSelectedGame] = useState(null);
-  const [link, setLink] = useState(null);
+  const [link, setLink] = useState("");
 
   const fetchGames = async () => {
     if (!selectedCategory) return;
@@ -50,44 +50,17 @@ function Ps2Links() {
     }
   };
 
-  const fetchGameLink = async () => {
-    if (!selectedGame) return;
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/api/game_link?game_id=${selectedGame.gameId}`
-      );
-      setLink(response.data);
-    } catch (error) {
-      console.error("Error fetching game link:", error);
-    }
-  };
+
 
   useEffect(() => {
     setGames([]);
     setSelectedGame(null);
-    setLink(null);
     fetchGames();
   }, [selectedCategory]);
-
-  useEffect(() => {
-    setLink(null);
-    fetchGameLink();
-  }, [selectedGame]);
 
   const handleCategoryChange = (event) => {
     const selected = categories.find((cat) => cat.chValue === event.target.value);
     setSelectedCategory(selected);
-  };
-
-  const handleGameChange = (event) => {
-    const selected = games.find((game) => game.gameId === parseInt(event.target.value));
-    setSelectedGame(selected);
-  };
-
-  const handleOpenLink = () => {
-    if (link) {
-      window.open(link, "_blank");
-    }
   };
 
   return (
@@ -106,10 +79,14 @@ function Ps2Links() {
         </select>
       </div>
 
-      <div className="row" style={{display:'ruby'}}>
-        {games.map((game) => <div className='col-3'>
-          <GameCard key={game.gameId} game={game} />
-        </div>)}
+      <div className="container">
+        <div className="row justify-content-center">
+          {games.map((game) => (
+            <div key={game.gameId} className="col-6 col-md-4 col-lg-3 d-flex justify-content-center" style={{marginBottom: "10px"}}>
+              <GameCard game={game}/>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

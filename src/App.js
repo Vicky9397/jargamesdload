@@ -3,6 +3,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Links from './components/Links';
 import Ps2Links from './components/Ps2Links';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
